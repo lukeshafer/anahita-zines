@@ -1,0 +1,24 @@
+{
+  "name": "anahita-zines",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/solid-js": "^2.2.1",
+    "@astrojs/tailwind": "^4.0.0",
+    "astro": "^2.10.12",
+    "solid-js": "^1.4.3",
+    "tailwindcss": "^3.0.24"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.2",
+    "prettier-plugin-astro": "^0.11.1",
+    "prettier-plugin-tailwindcss": "^0.5.3"
+  }
+}

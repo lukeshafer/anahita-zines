@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+	font-family: "AnahitaCreatesZines";
+	src:
+		url("/fonts/Anahitacreateszines-Regular.ttf") format("truetype"),
+		url("/fonts/Anahitacreateszines-Regular.otf") format("opentype");
+}
+
+@layer base {
+	* {
+		letter-spacing: -0.03em;
+	}
+}
