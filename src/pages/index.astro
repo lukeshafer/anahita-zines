@@ -10,13 +10,13 @@ import '../main.css';
 	<body>
 		<header class="flex justify-center">
 			<h1 class="my-8 text-center text-[3rem]">
-				<span class="block text-[5rem] -mb-14 text-fuchsia-700">Zines</span> by AnahitaCreates
+				<span class="block text-[5rem] -mb-14 text-fuchsia-700 uppercase">Zines</span> by AnahitaCreates
 			</h1>
 		</header>
 		<ul class="flex flex-col items-center gap-12 pb-12">
 			{
 				zines.map((zine) => (
-					<li class="flex w-fit flex-col items-center gap-3 rounded-3xl border-4 border-amber-500 bg-white/50 p-4 pb-6 font-anahita">
+					<li class="flex w-fit flex-col items-center gap-3 p-4 pb-6 font-anahita">
 						<Zine zine={zine} client:load />
 					</li>
 				))

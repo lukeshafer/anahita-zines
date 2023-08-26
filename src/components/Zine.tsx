@@ -61,13 +61,13 @@ export default function Zine(props: { zine: Zine }) {
 		<PositionsContext.Provider value={positions}>
 			<h2 class="text-3xl text-center">{props.zine.name}</h2>
 			<div class="flex pb-3">
-				<Button onClick={prev} side="left" title="Previous">{'<'}</Button>
 				<ZinePage
 					src={props.zine.src}
 					position={leftPage()}
 					page={2 * currentPage()}
 					side="left"
 					reversed={props.zine.reversed ?? false}>
+					<Button onClick={prev} side="left" title="Previous">{'<'}</Button>
 				</ZinePage>
 				<ZinePage
 					src={props.zine.src}
@@ -75,8 +75,8 @@ export default function Zine(props: { zine: Zine }) {
 					page={2 * currentPage() + 1}
 					side="right"
 					reversed={props.zine.reversed ?? false}>
+					<Button onClick={next} side="right" title="Next">{'>'}</Button>
 				</ZinePage>
-				<Button onClick={next} side="right" title="Next">{'>'}</Button>
 			</div>
 		</PositionsContext.Provider>
 	);
@@ -96,7 +96,7 @@ function ZinePage(props: {
 		props.position >= positions().length / 2
 	);
 	return (
-		<div class="relative bg-white outline outline-2 outline-black/40">
+		<div class="relative bg-white outline outline-2 outline-black/40 group">
 			<div
 				class="flex flex-col items-center justify-center bg-center bg-no-repeat w-[30vw]"
 				style={{
@@ -128,7 +128,7 @@ function Button(props: {
 }) {
 	return (
 		<button
-			class="mx-4 opacity-30 hover:opacity-100 bg-indigo-500/50 transition-all text-white font-bold py-2 px-4 rounded flex items-center top-0 group self-center"
+			class="absolute opacity-0 group-hover:opacity-30 group-hover:hover:opacity-100 bg-indigo-500/50 transition-all text-white h-full font-bold py-2 px-4 items-center top-0 group self-center"
 			style={{ [props.side]: "0", "justify-content": props.side === "left" ? "flex-start" : "flex-end" }}
 			onClick={() => props.onClick()}>
 			<span class="text-white px-2 rounded text-2xl font-bold" aria-hidden="true">
