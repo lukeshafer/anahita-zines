@@ -22,11 +22,13 @@ if (!zine || !zineTitle) {
 		<nav class="flex gap-3 self-start px-4 underline">
 			<a href="/" class="text-2xl">Home</a>
 		</nav>
-		<div
-			class="items-center justify-center rounded bg-white/50 p-2 px-6 pb-3 shadow-xl shadow-black/10">
-			<h1 class="px-3 text-center text-4xl">{zine.name}</h1>
-			<div class="flex flex-1 items-center">
-				<Zine {zine} title={zineTitle} client:load />
+		<div class="flex-1 flex items-center justify-center">
+			<div
+				class="rounded bg-white/50 p-2 px-6 pb-3 shadow-xl shadow-black/10">
+				<h1 class="px-3 text-center text-4xl">{zine.name}</h1>
+				<div class="flex flex-1 items-center">
+					<Zine {zine} title={zineTitle} client:load />
+				</div>
 			</div>
 		</div>
 	</div>

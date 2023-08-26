@@ -9,17 +9,88 @@
 		url("/fonts/Anahitacreateszines-Regular.otf") format("opentype");
 }
 
-@layer base {
-	* {
-		letter-spacing: -0.03em;
-	}
-}
-
-@keyframes page-turn-right {
+@keyframes turn-right-page-out {
 	0% {
 		transform: rotateY(0deg);
+		filter: brightness(1);
 	}
 	100% {
 		transform: rotateY(-180deg);
+		filter: brightness(0.5);
+	}
+}
+
+@keyframes turn-left-page-out {
+	0% {
+		transform: rotateY(0deg);
+		filter: brightness(1);
+	}
+	100% {
+		transform: rotateY(180deg);
+		filter: brightness(0.5);
+	}
+}
+
+@keyframes turn-right-page-in {
+	0% {
+		transform: rotateY(-180deg);
+		filter: brightness(0.5);
+	}
+	100% {
+		transform: rotateY(0deg);
+		filter: brightness(1);
+	}
+}
+
+@keyframes turn-left-page-in {
+	0% {
+		transform: rotateY(180deg);
+		filter: brightness(0.5);
+	}
+	100% {
+		transform: rotateY(0deg);
+		filter: brightness(1);
+	}
+}
+
+@layer base {
+	* {
+		letter-spacing: -0.03em;
+		transform-style: preserve-3d;
+	}
+
+	html {
+		font-size: clamp(0.75rem, 1.5vw, 1rem);
+		perspective: 5000px;
+	}
+}
+
+@layer utilities {
+	.page-right-old {
+		z-index: 1;
+		backface-visibility: hidden;
+		transform-origin: left center;
+		animation: turn-right-page-out 500ms ease-in-out forwards;
+	}
+
+	.page-right-new {
+		z-index: 2;
+		backface-visibility: hidden;
+		transform-origin: left center;
+		animation: turn-right-page-in 500ms ease-in-out forwards;
+	}
+
+	.page-left-old {
+		z-index: 1;
+		backface-visibility: hidden;
+		transform-origin: right center;
+		animation: turn-left-page-out 500ms ease-in-out forwards;
+	}
+
+	.page-left-new {
+		z-index: 2;
+		backface-visibility: hidden;
+		transform-origin: right center;
+		animation: turn-left-page-in 500ms ease-in-out forwards;
 	}
 }
