@@ -1,33 +1,25 @@
 ---
 import { zines } from '../config.js';
-import Zine from '../components/Zine';
-import Head from '../components/Head.astro';
-import '../main.css';
+import ZineCover from '../components/ZineCover';
+import Page from '../components/Page.astro';
 ---
 
-<html lang="en" class="bg-fuchsia-50 font-anahita text-gray-900">
-	<Head />
-	<body>
-		<header class="flex justify-center">
-			<h1 class="my-8 text-center text-[3rem]">
-				<span class="block text-[5rem] -mb-14 text-fuchsia-700 uppercase">Zines</span> by AnahitaCreates
-			</h1>
-		</header>
-		<ul class="flex flex-col items-center gap-12 pb-12">
-			{
-				zines.map((zine) => (
-					<li class="flex w-fit flex-col items-center gap-3 p-4 pb-6 font-anahita">
-						<Zine zine={zine} client:load />
-					</li>
-				))
-			}
-		</ul>
-		<style>
-			body {
-				background-image: url('../components/Background.svg');
-				background-size: 100%;
-				background-position: 0rem -20rem;
-			}
-		</style>
-	</body>
-</html>
+<Page title="AnahitaCreates Zines">
+	<header class="flex justify-center">
+		<h1 class="my-8 text-center text-[3rem]">
+			<span class="-mb-14 block text-[5rem] uppercase text-fuchsia-700">Zines</span> by
+			AnahitaCreates
+		</h1>
+	</header>
+	<ul class="flex flex-wrap items-center justify-center gap-12 pb-12">
+		{
+			zines.map(([title, zine]) => (
+				<li class="flex w-fit flex-col items-center gap-3 p-4 pb-6 font-anahita">
+					<a href={`/zines/${title}`} title={zine.name} class="hover:scale-105 focus:ring-4 focus:ring-violet-300 focus:outline-none focus:scale-105 transition-all hover:brightness-95">
+						<ZineCover {zine} {title} />
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</Page>

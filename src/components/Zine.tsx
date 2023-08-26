@@ -1,25 +1,14 @@
-import { createMemo, createSignal, createContext, useContext, JSX } from "solid-js";
+import { createMemo, createSignal, createContext, useContext, JSX, createEffect, onMount } from "solid-js";
 import { startViewTransition } from "../lib";
 import type { Zine } from "../config";
+import { RATIO, WIDTH, POSITIONS, LAST_PAGE } from "../constants"
 
-const RATIO = 5.5 / 8.5;
-const WIDTH = 300;
+const ZineContext = createContext({
+	positions: POSITIONS as readonly string[],
+	title: "",
+});
 
-const POSITIONS = [
-	"0% 0%",
-	"33.333% 0%",
-	"66.666% 0%",
-	"100% 0%",
-	"100% 100%",
-	"66.666% 100%",
-	"33.333% 100%",
-	"0% 100%",
-]
-
-const LAST_PAGE = (POSITIONS.length / 2);
-const PositionsContext = createContext(() => POSITIONS);
-
-export default function Zine(props: { zine: Zine }) {
+export default function Zine(props: { zine: Zine, title: string }) {
 	const startsIn = (() => props.zine.reversed
 		? POSITIONS.length - props.zine.startsIn + 1
 		: props.zine.startsIn);
@@ -34,6 +23,17 @@ export default function Zine(props: { zine: Zine }) {
 
 	const rightPage = (() => currentPage() === LAST_PAGE ? -1 : posIndex())
 	const leftPage = (() => currentPage() === 0 ? -1 : (posIndex() - 1 + positions().length) % positions().length)
+
+	onMount(() => {
+		window.addEventListener('keydown', (e) => {
+			console.log(e.key)
+			if (e.key === "ArrowLeft") {
+				prev()
+			} else if (e.key === "ArrowRight") {
+				next()
+			}
+		})
+	})
 
 	function next() {
 		console.log("next");
@@ -58,8 +58,10 @@ export default function Zine(props: { zine: Zine }) {
 	}
 
 	return (
-		<PositionsContext.Provider value={positions}>
-			<h2 class="text-3xl text-center">{props.zine.name}</h2>
+		<ZineContext.Provider value={{
+			get positions() { return positions() },
+			get title() { return props.title },
+		}}>
 			<div class="flex pb-3">
 				<ZinePage
 					src={props.zine.src}
@@ -78,11 +80,11 @@ export default function Zine(props: { zine: Zine }) {
 					<Button onClick={next} side="right" title="Next">{'>'}</Button>
 				</ZinePage>
 			</div>
-		</PositionsContext.Provider>
+		</ZineContext.Provider>
 	);
 }
 
-function ZinePage(props: {
+export function ZinePage(props: {
 	src: string;
 	position: number;
 	page: number;
@@ -90,21 +92,23 @@ function ZinePage(props: {
 	side: "left" | "right";
 	children: JSX.Element;
 }) {
-	const positions = useContext(PositionsContext);
+	const context = useContext(ZineContext);
+
+	const viewTransitionName = () => `${context.title}${props.page}`
 
 	const isRotated = (() =>
-		props.position >= positions().length / 2
+		props.position >= context.positions.length / 2
 	);
 	return (
-		<div class="relative bg-white outline outline-2 outline-black/40 group">
+		<div class="zine-page relative outline outline-2 outline-black/10 group" style={{ 'view-transition-name': viewTransitionName() }}>
 			<div
-				class="flex flex-col items-center justify-center bg-center bg-no-repeat w-[30vw]"
+				class="flex flex-col items-center justify-center bg-center bg-no-repeat w-[47vw]"
 				style={{
 					"background-image": `url(${props.src})`,
 					"max-width": `${WIDTH}px`,
 					"aspect-ratio": `${RATIO}`,
 					"background-size": "400%",
-					"background-position": positions()[Math.abs(props.position)],
+					"background-position": context.positions[Math.abs(props.position)],
 					transform: isRotated() ? "rotate(0.5turn)" : "rotate(0turn)",
 					opacity: props.position === -1 ? 0 : 1,
 				}}

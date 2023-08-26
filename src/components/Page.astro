@@ -1,0 +1,33 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import '../main.css';
+interface Props {
+	title: string;
+}
+---
+
+<html lang="en" class="bg-gray-50 font-anahita text-gray-900">
+	<head>
+		<title>{Astro.props.title}</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png" />
+		<link rel="manifest" href="/favicons/site.webmanifest" />
+		<link rel="shortcut icon" href="/favicons/favicon.ico" />
+		<meta name="msapplication-config" content="/favicons/browserconfig.xml" />
+		<ViewTransitions />
+	</head>
+	<body class="min-h-screen">
+		<slot />
+		<style>
+			body {
+				background-image: url('../components/Background.svg');
+				background-size: 100%;
+				background-position: 0rem -20rem;
+			}
+		</style>
+	</body>
+</html>
